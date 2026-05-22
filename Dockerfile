@@ -12,11 +12,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expose the port that Vercel will assign
-EXPOSE 
+# Expose the port that Vercel will assign
+EXPOSE $PORT
 
 # Set environment variables for Flask
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
 
-# Run the gunicorn server, binding to the dynamic 
-CMD ["gunicorn", "--bind", "0.0.0.0:", "app:create_app()"]
+# Run the gunicorn server, binding to the dynamic $PORT
+CMD ["gunicorn", "--bind", "0.0.0.0:$PORT", "app:create_app()"]
