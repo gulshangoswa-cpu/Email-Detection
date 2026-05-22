@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Register - Gulshan AI{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="glass-card p-5">
+            <h2 class="text-center mb-4 text-gradient">Create Account</h2>
+            <form method="POST" action="">
+                <div class="mb-3">
+                    <label class="form-label text-secondary">Username</label>
+                    <input type="text" class="form-control form-control-glass p-3" name="username" required placeholder="Choose a username">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary">Email address</label>
+                    <input type="email" class="form-control form-control-glass p-3" name="email" required placeholder="Enter your email">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-secondary">Password</label>
+                    <input type="password" class="form-control form-control-glass p-3" name="password" required placeholder="Create a password">
+                </div>
+                <button type="submit" class="btn btn-neon-purple w-100 py-3 mt-2">Sign Up</button>
+            </form>
+            <div class="text-center mt-4">
+                <small class="text-secondary">Already have an account? <a href="{{ url_for('auth.login') }}" class="text-info text-decoration-none">Login</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

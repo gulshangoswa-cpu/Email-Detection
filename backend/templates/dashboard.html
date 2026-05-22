@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Gulshan AI{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="fw-bold">Welcome back, <span class="text-gradient">{{ current_user.username }} 👑</span></h2>
+        <p class="text-secondary">Here is your AI classification overview.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Classifier Interface -->
+    <div class="col-lg-8">
+        <div class="glass-card p-4 h-100">
+            <h4 class="mb-4 text-gradient"><i class="bi bi-cpu"></i> Neural Classifier</h4>
+            
+            <div class="form-group mb-4">
+                <label class="form-label text-secondary">Enter Subject Line</label>
+                <textarea id="subject-input" class="form-control form-control-glass" rows="3" placeholder="e.g. Win a free iPhone now!"></textarea>
+            </div>
+            
+            <button id="predict-btn" class="btn btn-neon w-100 py-2 mb-4">Analyze with AI</button>
+            
+            <div id="loader" class="loader mb-4"></div>
+            
+            <div id="prediction-result" class="prediction-result glass-card p-3 border-info mt-2">
+                <h5 class="text-white mb-3">AI Analysis Complete</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-secondary me-2">Category:</span>
+                        <span id="result-category" class="badge"></span>
+                    </div>
+                    <div>
+                        <span class="text-secondary me-2">Confidence:</span>
+                        <span id="result-confidence" class="text-info fw-bold"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats Area -->
+    <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="glass-card p-4 text-center">
+                    <h5 class="text-secondary mb-3">Total Predictions</h5>
+                    <h2 class="text-gradient display-5 fw-bold">{{ total_preds }}</h2>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="glass-card p-4 text-center">
+                    <h5 class="text-secondary mb-3">Most Common</h5>
+                    <h3 class="text-info fw-bold">{{ most_common }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Recent Activity -->
+    <div class="col-12">
+        <div class="glass-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="text-gradient mb-0"><i class="bi bi-clock-history"></i> Recent Activity</h4>
+                <a href="{{ url_for('main.history') }}" class="btn btn-sm btn-outline-info">View All</a>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-dark table-hover bg-transparent">
+                    <thead>
+                        <tr>
+                            <th class="text-secondary">Subject</th>
+                            <th class="text-secondary">Category</th>
+                            <th class="text-secondary">Confidence</th>
+                            <th class="text-secondary">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pred in recent_preds %}
+                        <tr>
+                            <td>{{ pred.subject_text[:50] }}{% if pred.subject_text|length > 50 %}...{% endif %}</td>
+                            <td><span class="badge bg-secondary">{{ pred.predicted_category }}</span></td>
+                            <td class="text-info">{{ pred.confidence_score|round(1) }}%</td>
+                            <td class="text-secondary small">{{ pred.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center text-secondary py-4">No predictions yet. Try the Neural Classifier above!</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

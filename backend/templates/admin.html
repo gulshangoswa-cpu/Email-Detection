@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel - Gulshan AI{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="fw-bold text-gradient"><i class="bi bi-shield-lock"></i> Admin Dashboard</h2>
+        <p class="text-secondary">System overview and analytics.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6 mb-4 mb-md-0">
+        <div class="glass-card p-4 text-center">
+            <h5 class="text-secondary mb-3"><i class="bi bi-people"></i> Total Users</h5>
+            <h2 class="text-gradient display-4 fw-bold">{{ total_users }}</h2>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="glass-card p-4 text-center">
+            <h5 class="text-secondary mb-3"><i class="bi bi-activity"></i> Total API Calls</h5>
+            <h2 class="text-gradient display-4 fw-bold">{{ total_preds }}</h2>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="glass-card p-4">
+            <h4 class="text-gradient mb-4">System Analytics</h4>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <canvas id="accuracyChart"></canvas>
+                    <script>
+        const ctx = document.getElementById('accuracyChart').getContext('2d');
+        const data = {{ category_distribution|tojson }};
+        const labels = data.map(item => item[0]);
+        const counts = data.map(item => item[1]);
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: counts,
+                    backgroundColor: ['#ff4d4d','#00f3ff','#9d4edd','#4CAF50','#ff8c00','#ff1493'],
+                    borderWidth: 0
+                }]
+            },
+            options: {responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#ffffff'}}}}
+        });
+    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
