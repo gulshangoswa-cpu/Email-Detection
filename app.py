@@ -44,3 +44,6 @@ if __name__ == '__main__':
     app = create_app()
     app.run(debug=True, host='0.0.0.0', port=int(os.getenv('PORT', 5000))
 
+
+# Vercel compatibility – expose a top-level Flask app instance
+app = create_app()
