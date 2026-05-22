@@ -4,21 +4,19 @@ FROM python:3.10-slim
 # Set working directory
 WORKDIR /app
 
-# Copy requirements
+# Copy requirements and install them
 COPY requirements.txt .
-
-# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the entire project
 COPY . .
 
-# Expose port 5000
-EXPOSE 5000
+# Expose the port that Vercel will assign
+EXPOSE 
 
-# Set environment variables
+# Set environment variables for Flask
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
 
-# Run the gunicorn server
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:create_app()"]
+# Run the gunicorn server, binding to the dynamic 
+CMD ["gunicorn", "--bind", "0.0.0.0:", "app:create_app()"]
